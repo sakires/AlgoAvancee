@@ -37,23 +37,52 @@ void ajouterEnQueue( FileAttente &li , int numero) {
 	sp = new maillon;
 	if (li.tete != NULL) {
 		sp->numero = numero;
-		li.queue->suivant = sp;
-		li.queue = sp;
+		if (li.queue != NULL){
+			li.queue->suivant = sp;
+			li.queue = sp;
+		}
+		else {
+			li.tete->suivant = sp;
+			li.queue = sp;
+		}
+
+		sp->suivant = NULL;
 	}
 	else {
 		li.tete = new maillon;
-		li.queue = new maillon;
 		li.tete->numero = numero;
-		li.tete->suivant = li.queue;
+		li.tete->suivant = NULL;
 	}
 
 }
+void Sup_tete(FileAttente &li) {
+	if (li.tete != NULL) {
+		maillon *ap = li.tete->suivant;
+		delete li.tete;
+		li.tete = ap;
+	}
+}
 
-int Consulter(FileAttente li) {
+
+int Longueur(FileAttente li) {
+	int l;
+	maillon *sp = new maillon;
+	l = 0;
+	if (li.tete != NULL) {
+		l++;
+		sp = li.tete;
+		while (sp->suivant != NULL) {
+			sp = sp->suivant;
+			l = l + 1;
+		}
+	}
+	return l;
+}
+void Consulter(FileAttente li) {
 	if (li.tete != NULL)
-		return li.tete->numero;
+		cout <<"le premier element est"<< li.tete->numero<<endl;
 	else
-		return 0;
+		cout << "il n y a pas d element dans la file" << endl;
 }
 
 int main() {
@@ -62,7 +91,7 @@ int main() {
 	li.tete = NULL;
 	li.queue = NULL;
 	do {
-		saisirControleEntierBorne("\n1 ajouter \n2 -// \n3 -consulter \n4 // \n5 quitter", 0, 5, exo);
+		saisirControleEntierBorne("\n1 ajouter \n2 -retirer \n3 -consulter \n4 longueur \n5 quitter", 0, 5, exo);
 		switch (exo)
 		{
 		case 1:
@@ -72,12 +101,12 @@ int main() {
 			ajouterEnQueue(li , element);
 			break;
 		case 2:
-			//exercice2();
+			Sup_tete(li);
 			break;
 		case 3:
-			cout << Consulter(li);
+			Consulter(li);
 			break;
-
+		case 4: cout <<"la longeur est de "<< Longueur(li) << endl;
 		default:
 			cout << "Quitter" << endl;
 			break;
