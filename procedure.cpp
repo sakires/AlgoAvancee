@@ -17,6 +17,14 @@ void Sup_tete(FileAttente &li) {
 }
 
 
-int Longueur(FileAttente &li) {
-
+int Longueur(FileAttente li, int &l) {
+	int l;
+	maillon *sp = new maillon;
+	l = 0;
+	sp = li.tete;
+	while (sp != NULL) {
+		sp = sp->suivant;
+		l = l + 1;
+	}
+	return l;
 }
