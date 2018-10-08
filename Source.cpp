@@ -26,10 +26,14 @@ typedef struct maillon  {
 	maillon *suivant;
 };
 
+
 typedef struct FileAttente {
 	maillon *tete;
 	maillon *queue;
 };
+
+
+
 
 
 void ajouterEnQueue( FileAttente &li , int numero) {
@@ -80,7 +84,7 @@ int Longueur(FileAttente li) {
 }
 void Consulter(FileAttente li) {
 	if (li.tete != NULL)
-		cout <<"le premier element est"<< li.tete->numero<<endl;
+		cout <<"le premier element est "<< li.tete->numero<<endl;
 	else
 		cout << "il n y a pas d element dans la file" << endl;
 }
@@ -116,4 +120,71 @@ int main() {
 	system("pause");
 
 	return 0;
+}
+
+
+
+/////////////////////////////////////////// EXERCICE 2 ///////////////////////////////////////////////////
+
+typedef struct FileAttentePerso {
+	Personne *tete;
+	Personne *queue;
+};
+
+typedef struct Personne {
+	string name;
+	Personne *suivant;
+};
+
+void ajouterEnQueuePerso(FileAttentePerso &li, string name) {
+	Personne *sp;
+	sp = new Personne;
+	if (li.tete != NULL) {
+		sp->name = name;
+		if (li.queue != NULL) {
+			li.queue->suivant = sp;
+			li.queue = sp;
+		}
+		else {
+			li.tete->suivant = sp;
+			li.queue = sp;
+		}
+
+		sp->suivant = NULL;
+	}
+	else {
+		li.tete = new Personne;
+		li.tete->name = name;
+		li.tete->suivant = NULL;
+	}
+
+}
+void Sup_tetePerso(FileAttentePerso &li) {
+	if (li.tete != NULL) {
+		Personne *ap = li.tete->suivant;
+		delete li.tete;
+		li.tete = ap;
+	}
+}
+
+
+int LongueurPerso(FileAttentePerso li) {
+	int l;
+	Personne *sp = new Personne;
+	l = 0;
+	if (li.tete != NULL) {
+		l++;
+		sp = li.tete;
+		while (sp->suivant != NULL) {
+			sp = sp->suivant;
+			l = l + 1;
+		}
+	}
+	return l;
+}
+void ConsulterPerso(FileAttentePerso li) {
+	if (li.tete != NULL)
+		cout << "le premier element est " << li.tete->name << endl;
+	else
+		cout << "il n y a pas d element dans la file" << endl;
 }
